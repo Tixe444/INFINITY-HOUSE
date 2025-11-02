@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace InfiniteHaus.Save
 {
@@ -18,7 +19,14 @@ namespace InfiniteHaus.Save
         // Permanent Upgrades
         public int totalRelicsCollected;
         public int permanentHPUpgrades;
-        public int[] unlockedCosmetics; // IDs of unlocked cosmetic items
+        public int[] unlockedCosmetics; // Legacy - for backwards compatibility
+
+        // Shop System
+        public int diamonds; // Premium currency
+        public string[] ownedCosmeticIDs; // Owned cosmetic IDs
+        public Dictionary<string, string> equippedCosmetics; // Type -> CosmeticID mapping
+        public int totalDiamondsEarned;
+        public int totalDiamondsSpent;
 
         // Settings
         public float masterVolume = 1f;
@@ -62,6 +70,11 @@ namespace InfiniteHaus.Save
                 totalRelicsCollected = 0,
                 permanentHPUpgrades = 0,
                 unlockedCosmetics = new int[0],
+                diamonds = 50, // Starting diamonds for new players
+                ownedCosmeticIDs = new string[0],
+                equippedCosmetics = new Dictionary<string, string>(),
+                totalDiamondsEarned = 50,
+                totalDiamondsSpent = 0,
                 masterVolume = 1f,
                 musicVolume = 0.8f,
                 sfxVolume = 1f,
@@ -70,9 +83,9 @@ namespace InfiniteHaus.Save
                 resolutionHeight = 1080,
                 lastThemeIndex = 0,
                 randomThemePerRun = false,
-                jumpKey = "Space",
-                leftDoorKey = "LeftArrow",
-                rightDoorKey = "RightArrow",
+                jumpKey = "W", // Desktop default
+                leftDoorKey = "A",
+                rightDoorKey = "D",
                 pauseKey = "Escape",
                 totalSoulShardsCollected = 0,
                 totalChaseCrystalsCollected = 0,

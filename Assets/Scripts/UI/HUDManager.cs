@@ -53,6 +53,13 @@ namespace InfiniteHaus.UI
         [Tooltip("Current theme label")]
         [SerializeField] private TextMeshProUGUI themeNameText;
 
+        [Header("Shop & Currency")]
+        [Tooltip("Diamond count display text")]
+        [SerializeField] private TextMeshProUGUI diamondCountText;
+
+        [Tooltip("Shop button (top-left corner on PC, tap area on mobile)")]
+        [SerializeField] private UnityEngine.UI.Button shopButton;
+
         [Header("Visual Effects")]
         [Tooltip("Flash effect for milestones")]
         [SerializeField] private CanvasGroup flashOverlay;
@@ -67,10 +74,76 @@ namespace InfiniteHaus.UI
         private float currentChaseMeter = 0f;
         private bool isWarningActive = false;
 
+        // Shop reference
+        private Shop.DiamondCurrencyManager currencyManager;
+
         private void Start()
         {
             InitializeHearts(3); // Default 3 hearts
+            InitializeCurrencyDisplay();
             UpdateAllUI();
+        }
+
+        private void OnEnable()
+        {
+            // Subscribe to currency changes
+            if (currencyManager != null)
+            {
+                currencyManager.OnDiamondsChanged += UpdateDiamondDisplay;
+            }
+        }
+
+        private void OnDisable()
+        {
+            // Unsubscribe from currency changes
+            if (currencyManager != null)
+            {
+                currencyManager.OnDiamondsChanged -= UpdateDiamondDisplay;
+            }
+        }
+
+        /// <summary>
+        /// Initializes currency display
+        /// </summary>
+        private void InitializeCurrencyDisplay()
+        {
+            // Find currency manager
+            currencyManager = FindObjectOfType<Shop.DiamondCurrencyManager>();
+
+            if (currencyManager != null)
+            {
+                currencyManager.OnDiamondsChanged += UpdateDiamondDisplay;
+                UpdateDiamondDisplay(currencyManager.CurrentDiamonds);
+            }
+
+            // Setup shop button
+            if (shopButton != null)
+            {
+                shopButton.onClick.AddListener(OnShopButtonClicked);
+            }
+        }
+
+        /// <summary>
+        /// Updates diamond count display
+        /// </summary>
+        public void UpdateDiamondDisplay(int amount)
+        {
+            if (diamondCountText != null)
+            {
+                diamondCountText.text = $"💎 {amount}";
+            }
+        }
+
+        /// <summary>
+        /// Called when shop button is clicked
+        /// </summary>
+        private void OnShopButtonClicked()
+        {
+            var shopUI = FindObjectOfType<Shop.ShopUIController>();
+            if (shopUI != null)
+            {
+                shopUI.OpenShop();
+            }
         }
 
         private void Update()
