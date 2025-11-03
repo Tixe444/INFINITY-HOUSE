@@ -1,10 +1,12 @@
-# 🏚️ INFINITE HAUS
+# 🏚️ INFINITY HOUSE
+
+**Made by Mate Makovics**
 
 A Unity 2D pixel-art endless runner set in a surreal, ever-shifting haunted house.
 
 ## 🎮 Overview
 
-INFINITE HAUS combines fast-paced auto-run platforming with psychological horror, light roguelike structure, and a modular corridor system. Players must escape an infinite maze of haunted hallways while being pursued by three unique supernatural entities.
+INFINITY HOUSE combines fast-paced auto-run platforming with psychological horror, light roguelike structure, and a modular corridor system. Players must escape an infinite maze of haunted hallways while being pursued by three unique supernatural entities.
 
 ## 🎯 Core Features
 
@@ -138,9 +140,11 @@ Complete cosmetic shop with premium currency:
 
 ## 📝 License
 
-Created for educational/portfolio purposes.
+INFINITY HOUSE - Created by Mate Makovics
 
 ---
 
 **Built with Unity & C#**
-**Cross-Platform Ready** • **Shop System** • **Mobile Optimized** 🎮
+**Cross-Platform Ready** • **Shop System** • **Mobile Optimized** • **IAP Ready** 🎮
+
+© 2025 Mate Makovics • INFINITY HOUSE

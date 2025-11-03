@@ -1,0 +1,86 @@
+{
+  "productMappings": [
+    {
+      "internalId": "diamonds_100",
+      "ios": "com.matemakovics.infinityhouse.diamonds_100",
+      "android": "com.matemakovics.infinityhouse.diamonds_100",
+      "steam": "diamonds_pack_small",
+      "displayName": "100 Diamonds",
+      "description": "Small diamond pack",
+      "type": "consumable"
+    },
+    {
+      "internalId": "diamonds_500",
+      "ios": "com.matemakovics.infinityhouse.diamonds_500",
+      "android": "com.matemakovics.infinityhouse.diamonds_500",
+      "steam": "diamonds_pack_medium",
+      "displayName": "500 Diamonds",
+      "description": "Medium diamond pack",
+      "type": "consumable"
+    },
+    {
+      "internalId": "diamonds_1000",
+      "ios": "com.matemakovics.infinityhouse.diamonds_1000",
+      "android": "com.matemakovics.infinityhouse.diamonds_1000",
+      "steam": "diamonds_pack_large",
+      "displayName": "1,000 Diamonds",
+      "description": "Large diamond pack - BEST VALUE",
+      "type": "consumable"
+    },
+    {
+      "internalId": "diamonds_2500",
+      "ios": "com.matemakovics.infinityhouse.diamonds_2500",
+      "android": "com.matemakovics.infinityhouse.diamonds_2500",
+      "steam": "diamonds_pack_huge",
+      "displayName": "2,500 Diamonds",
+      "description": "Huge diamond pack",
+      "type": "consumable"
+    },
+    {
+      "internalId": "diamonds_5000",
+      "ios": "com.matemakovics.infinityhouse.diamonds_5000",
+      "android": "com.matemakovics.infinityhouse.diamonds_5000",
+      "steam": "diamonds_pack_mega",
+      "displayName": "5,000 Diamonds",
+      "description": "Mega diamond pack",
+      "type": "consumable"
+    },
+    {
+      "internalId": "seasonpass_s1",
+      "ios": "com.matemakovics.infinityhouse.seasonpass_s1",
+      "android": "com.matemakovics.infinityhouse.seasonpass_s1",
+      "steam": "season_pass_1",
+      "displayName": "Season Pass - Season 1",
+      "description": "Premium season pass with exclusive rewards",
+      "type": "subscription"
+    },
+    {
+      "internalId": "capsule_starter",
+      "ios": "com.matemakovics.infinityhouse.capsule_starter",
+      "android": "com.matemakovics.infinityhouse.capsule_starter",
+      "steam": "capsule_starter",
+      "displayName": "Starter Capsule",
+      "description": "Contains 3 random cosmetics (Common-Rare)",
+      "type": "consumable"
+    },
+    {
+      "internalId": "capsule_premium",
+      "ios": "com.matemakovics.infinityhouse.capsule_premium",
+      "android": "com.matemakovics.infinityhouse.capsule_premium",
+      "steam": "capsule_premium",
+      "displayName": "Premium Capsule",
+      "description": "Contains 5 random cosmetics (Rare-Legendary)",
+      "type": "consumable"
+    }
+  ],
+  "prices": {
+    "diamonds_100": { "usd": 0.99, "eur": 0.99, "gbp": 0.79 },
+    "diamonds_500": { "usd": 4.99, "eur": 4.99, "gbp": 3.99 },
+    "diamonds_1000": { "usd": 9.99, "eur": 9.99, "gbp": 7.99 },
+    "diamonds_2500": { "usd": 19.99, "eur": 19.99, "gbp": 15.99 },
+    "diamonds_5000": { "usd": 49.99, "eur": 49.99, "gbp": 39.99 },
+    "seasonpass_s1": { "usd": 9.99, "eur": 9.99, "gbp": 7.99 },
+    "capsule_starter": { "usd": 1.99, "eur": 1.99, "gbp": 1.49 },
+    "capsule_premium": { "usd": 2.99, "eur": 2.99, "gbp": 2.49 }
+  }
+}

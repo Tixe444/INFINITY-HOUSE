@@ -1,0 +1,156 @@
+{
+  "currencies": {
+    "diamonds": {
+      "displayName": "Diamonds",
+      "symbol": "💎",
+      "type": "premium",
+      "startingAmount": 0,
+      "maxAmount": 999999
+    },
+    "shards": {
+      "displayName": "Shards",
+      "symbol": "✦",
+      "type": "utility",
+      "startingAmount": 100,
+      "maxAmount": 999999
+    }
+  },
+  "rarityTiers": {
+    "common": {
+      "displayName": "Common",
+      "color": "#808080",
+      "dropRate": 0.55,
+      "shardValue": 25,
+      "fusionCost": 5
+    },
+    "rare": {
+      "displayName": "Rare",
+      "color": "#4169E1",
+      "dropRate": 0.25,
+      "shardValue": 75,
+      "fusionCost": 5
+    },
+    "epic": {
+      "displayName": "Epic",
+      "color": "#9370DB",
+      "dropRate": 0.12,
+      "shardValue": 150,
+      "fusionCost": 5
+    },
+    "legendary": {
+      "displayName": "Legendary",
+      "color": "#FFD700",
+      "dropRate": 0.06,
+      "shardValue": 400,
+      "fusionCost": 5
+    },
+    "mythic": {
+      "displayName": "Mythic",
+      "color": "#DC143C",
+      "dropRate": 0.015,
+      "shardValue": 1000,
+      "fusionCost": 5,
+      "glowColor": "#FF1493"
+    },
+    "exotic": {
+      "displayName": "Exotic",
+      "color": "#000000",
+      "dropRate": 0.002,
+      "shardValue": 2500,
+      "fusionCost": 0,
+      "specialEffect": "iridescent",
+      "reflectionColors": ["#00FFFF", "#FF00FF"]
+    }
+  },
+  "conditionSystem": {
+    "enabled": true,
+    "ranges": {
+      "blessed": { "min": 0.0, "max": 0.25, "label": "Blessed", "brightness": 1.3 },
+      "awakened": { "min": 0.25, "max": 0.5, "label": "Awakened", "brightness": 1.1 },
+      "withered": { "min": 0.5, "max": 0.75, "label": "Withered", "brightness": 0.9 },
+      "cursed": { "min": 0.75, "max": 1.0, "label": "Cursed", "brightness": 0.7 }
+    },
+    "fusionVariance": 0.05,
+    "steamMarketBonus": {
+      "blessed": 0.15,
+      "awakened": 0.05,
+      "withered": -0.05,
+      "cursed": -0.1
+    }
+  },
+  "fusion": {
+    "enabled": true,
+    "itemsRequired": 5,
+    "successRate": 1.0,
+    "catalystSkipChance": 0.1,
+    "recipes": [
+      { "input": "common", "output": "rare" },
+      { "input": "rare", "output": "epic" },
+      { "input": "epic", "output": "legendary" },
+      { "input": "legendary", "output": "mythic" }
+    ]
+  },
+  "chests": {
+    "basic": {
+      "displayName": "Basic Chest",
+      "cost": 0,
+      "costCurrency": "free",
+      "itemCount": 1,
+      "rarityWeights": {
+        "common": 0.75,
+        "rare": 0.25
+      }
+    },
+    "crystal": {
+      "displayName": "Crystal Chest",
+      "cost": 500,
+      "costCurrency": "shards",
+      "diamondCost": 50,
+      "itemCount": 3,
+      "rarityWeights": {
+        "rare": 0.60,
+        "epic": 0.35,
+        "legendary": 0.05
+      }
+    },
+    "mythic": {
+      "displayName": "Mythic Chest",
+      "cost": 200,
+      "costCurrency": "diamonds",
+      "itemCount": 5,
+      "rarityWeights": {
+        "epic": 0.50,
+        "legendary": 0.40,
+        "mythic": 0.10
+      }
+    },
+    "eternal_vault": {
+      "displayName": "Eternal Vault",
+      "cost": 0,
+      "costCurrency": "event",
+      "itemCount": 7,
+      "rarityWeights": {
+        "legendary": 0.50,
+        "mythic": 0.45,
+        "exotic": 0.05
+      }
+    },
+    "obsidian_vault": {
+      "displayName": "Obsidian Vault",
+      "cost": 500,
+      "costCurrency": "diamonds",
+      "itemCount": 5,
+      "guaranteedMinRarity": "legendary",
+      "rarityWeights": {
+        "legendary": 0.70,
+        "mythic": 0.25,
+        "exotic": 0.05
+      }
+    }
+  },
+  "rewards": {
+    "perfect_run_bonus": 2.0,
+    "weekend_shard_bonus": 0.5,
+    "safe_room_interval": 3
+  }
+}

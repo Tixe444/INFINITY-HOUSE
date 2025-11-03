@@ -1,12 +1,14 @@
 using UnityEngine;
+using System;
 
-namespace InfiniteHaus.Shop
+namespace InfinityHouse.Shop
 {
     /// <summary>
     /// ScriptableObject defining a purchasable cosmetic item.
     /// Supports multiple cosmetic types (skins, trails, UI themes, music, filters).
+    /// Includes fusion system support and condition-based quality.
     /// </summary>
-    [CreateAssetMenu(fileName = "New Cosmetic", menuName = "Infinite Haus/Shop/Cosmetic Item")]
+    [CreateAssetMenu(fileName = "New Cosmetic", menuName = "Infinity House/Shop/Cosmetic Item")]
     public class CosmeticItem : ScriptableObject
     {
         [Header("Identity")]
@@ -38,6 +40,17 @@ namespace InfiniteHaus.Shop
         [Tooltip("Required player level to purchase (0 = no requirement)")]
         [Min(0)]
         public int requiredLevel = 0;
+
+        [Header("Fusion & Condition System")]
+        [Tooltip("Condition value (0.0-1.0): affects brightness and market value")]
+        [Range(0f, 1f)]
+        public float conditionValue = 0.5f;
+
+        [Tooltip("Was this item created through fusion?")]
+        public bool isFused = false;
+
+        [Tooltip("When was this item fused (UTC)")]
+        public DateTime fusionTimestamp;
 
         [Header("Visual Assets")]
         [Tooltip("Preview icon shown in shop")]
@@ -88,15 +101,16 @@ namespace InfiniteHaus.Shop
         }
 
         /// <summary>
-        /// Rarity tiers for visual presentation
+        /// Rarity tiers for visual presentation (6 tiers)
         /// </summary>
         public enum RarityTier
         {
-            Common,      // White/Gray
-            Rare,        // Blue
-            Epic,        // Purple
-            Legendary,   // Gold
-            Mythic       // Red/Rainbow
+            Common,      // Gray (55%)
+            Rare,        // Blue (25%)
+            Epic,        // Purple (12%)
+            Legendary,   // Gold (6%)
+            Mythic,      // Red with violet glow (1.5%)
+            Exotic       // Iridescent black (0.1-0.2%)
         }
 
         /// <summary>
@@ -107,18 +121,31 @@ namespace InfiniteHaus.Shop
             switch (rarity)
             {
                 case RarityTier.Common:
-                    return new Color(0.7f, 0.7f, 0.7f); // Gray
+                    return new Color(0.5f, 0.5f, 0.5f); // Gray
                 case RarityTier.Rare:
-                    return new Color(0.2f, 0.5f, 1f); // Blue
+                    return new Color(0.25f, 0.41f, 0.88f); // Blue
                 case RarityTier.Epic:
-                    return new Color(0.7f, 0.3f, 1f); // Purple
+                    return new Color(0.58f, 0.44f, 0.86f); // Purple
                 case RarityTier.Legendary:
-                    return new Color(1f, 0.8f, 0.2f); // Gold
+                    return new Color(1f, 0.84f, 0f); // Gold
                 case RarityTier.Mythic:
-                    return new Color(1f, 0.2f, 0.4f); // Red
+                    return new Color(0.86f, 0.08f, 0.24f); // Crimson
+                case RarityTier.Exotic:
+                    return Color.black; // Iridescent black
                 default:
                     return Color.white;
             }
+        }
+
+        /// <summary>
+        /// Gets condition display string
+        /// </summary>
+        public string GetConditionDisplay()
+        {
+            if (conditionValue <= 0.25f) return "Blessed";
+            if (conditionValue <= 0.50f) return "Awakened";
+            if (conditionValue <= 0.75f) return "Withered";
+            return "Cursed";
         }
 
         /// <summary>
