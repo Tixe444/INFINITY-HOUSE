@@ -4,8 +4,9 @@ using UnityEngine.AddressableAssets;
 namespace InfinityHouse.Data
 {
     /// <summary>
-    /// Biome Configuration ScriptableObject for INFINITE HAUS v5.9.
+    /// Biome Configuration ScriptableObject for INFINITY HOUSE v6.0.
     /// Defines biome-specific parameters: visuals, movement feel, obstacles, difficulty.
+    /// v6.0: Added parameter delta validation (max 30% shift per transition)
     /// Modulare Struktur für Einsteiger - alle Biome-Settings an einem Ort.
     /// </summary>
     [CreateAssetMenu(fileName = "IH_BiomeConfig", menuName = "Infinity House/Biome Config")]
@@ -129,7 +130,7 @@ namespace InfinityHouse.Data
         }
 
         /// <summary>
-        /// Validates biome configuration
+        /// Validates biome configuration (v6.0: Added parameter constraints)
         /// </summary>
         private void OnValidate()
         {
@@ -143,6 +144,18 @@ namespace InfinityHouse.Data
             {
                 speedMultMax = speedMultMin;
             }
+
+            // v6.0: Clamp parameters to safe ranges (prevent extreme shifts)
+            gravityMult = Mathf.Clamp(gravityMult, 0.75f, 1.25f); // ±25% max
+            airControlMult = Mathf.Clamp(airControlMult, 0.35f, 0.8f); // Safe range
+            frictionMult = Mathf.Clamp(frictionMult, 0.75f, 1.25f); // ±25% max
+            speedMultMin = Mathf.Clamp(speedMultMin, 0.9f, 1.3f); // ±30% max
+            speedMultMax = Mathf.Clamp(speedMultMax, 0.9f, 1.3f);
+            jumpCoyoteMs = Mathf.Clamp(jumpCoyoteMs, 80f, 120f); // Android/iOS precision
+            jumpBufferMs = Mathf.Clamp(jumpBufferMs, 75f, 110f);
+
+            // Transition duration safe range
+            transitionDurationS = Mathf.Clamp(transitionDurationS, 0.6f, 1.2f);
         }
         #endregion
     }

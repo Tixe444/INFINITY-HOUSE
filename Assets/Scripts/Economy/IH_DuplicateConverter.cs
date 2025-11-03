@@ -6,26 +6,27 @@ using System.Collections;
 namespace InfinityHouse.Economy
 {
     /// <summary>
-    /// Duplicate Converter for INFINITE HAUS v5.9.
+    /// Duplicate Converter for INFINITY HOUSE v6.0.
     /// Converts duplicate cosmetics into Shards with satisfying Mobile UX.
     /// Includes: Particles, SFX, Haptics, Animated Counter.
+    /// v6.0: Rebalanced shard values (Epic 8→10, Legendary 20→15)
     /// CPU: <0.15ms | Memory: 4KB | GC: 0B
     /// </summary>
     public class IH_DuplicateConverter : MonoBehaviour
     {
         #region Configuration
-        [Header("Conversion Rates by Rarity")]
+        [Header("Conversion Rates by Rarity (v6.0 Balanced)")]
         [Tooltip("Shards per Common duplicate")]
         [SerializeField] private int shardsPerCommon = 1;
 
         [Tooltip("Shards per Rare duplicate")]
         [SerializeField] private int shardsPerRare = 3;
 
-        [Tooltip("Shards per Epic duplicate")]
-        [SerializeField] private int shardsPerEpic = 8;
+        [Tooltip("Shards per Epic duplicate (v6.0: 8→10)")]
+        [SerializeField] private int shardsPerEpic = 10;
 
-        [Tooltip("Shards per Legendary duplicate")]
-        [SerializeField] private int shardsPerLegendary = 20;
+        [Tooltip("Shards per Legendary duplicate (v6.0: 20→15)")]
+        [SerializeField] private int shardsPerLegendary = 15;
 
         [Header("UX Configuration")]
         [Tooltip("Enable auto-convert on duplicate")]
