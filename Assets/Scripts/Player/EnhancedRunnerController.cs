@@ -1,16 +1,19 @@
 using UnityEngine;
 using System;
+using InfinityHouse.Game;
+using InfinityHouse.Data;
 
 namespace InfiniteHaus.Player
 {
     /// <summary>
     /// Enhanced runner controller with perfect feel, style integration, and advanced mechanics.
     /// Built on PlayerController foundation with tighter physics and responsive controls.
+    /// v5.10: Now implements IIH_MoveTuner for biome-based movement parameter adaptation.
     /// CPU: <0.4ms | Memory: 8KB | GC: 0B/frame
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Collider2D))]
-    public class EnhancedRunnerController : MonoBehaviour
+    public class EnhancedRunnerController : MonoBehaviour, IIH_MoveTuner
     {
         #region Movement Configuration
         [Header("Enhanced Movement")]
@@ -20,11 +23,14 @@ namespace InfiniteHaus.Player
         [Tooltip("Acceleration to reach base speed")]
         [SerializeField] private float acceleration = 20f;
 
-        [Tooltip("Speed multiplier (hazards, powerups)")]
+        [Tooltip("Speed multiplier (hazards, powerups, biomes)")]
         [SerializeField] private float speedMultiplier = 1f;
 
-        [Tooltip("Air control strength (0-1)")]
-        [SerializeField][Range(0f, 1f)] private float airControl = 0.3f;
+        [Tooltip("BASE air control strength (0-1) - modified by biome")]
+        [SerializeField][Range(0f, 1f)] private float baseAirControl = 0.3f;
+
+        // Current air control (after biome multipliers)
+        private float airControl = 0.3f;
         #endregion
 
         #region Jump Configuration
@@ -32,11 +38,15 @@ namespace InfiniteHaus.Player
         [Tooltip("Jump force")]
         [SerializeField] private float jumpForce = 14f;
 
-        [Tooltip("Gravity scale when rising")]
-        [SerializeField] private float jumpGravityScale = 2.5f;
+        [Tooltip("BASE gravity scale when rising - modified by biome")]
+        [SerializeField] private float baseJumpGravityScale = 2.5f;
 
-        [Tooltip("Gravity scale when falling")]
-        [SerializeField] private float fallGravityScale = 4f;
+        [Tooltip("BASE gravity scale when falling - modified by biome")]
+        [SerializeField] private float baseFallGravityScale = 4f;
+
+        // Current gravity scales (after biome multipliers)
+        private float jumpGravityScale = 2.5f;
+        private float fallGravityScale = 4f;
 
         [Tooltip("Max fall speed")]
         [SerializeField] private float maxFallSpeed = 25f;
@@ -53,11 +63,15 @@ namespace InfiniteHaus.Player
 
         #region Advanced Jump Features
         [Header("Advanced Jump Mechanics")]
-        [Tooltip("Coyote time (grace period after leaving ground)")]
-        [SerializeField] private float coyoteTime = 0.15f;
+        [Tooltip("BASE coyote time (grace period after leaving ground) - modified by biome")]
+        [SerializeField] private float baseCoyoteTime = 0.15f;
 
-        [Tooltip("Jump buffer time")]
-        [SerializeField] private float jumpBufferTime = 0.2f;
+        [Tooltip("BASE jump buffer time - modified by biome")]
+        [SerializeField] private float baseJumpBufferTime = 0.2f;
+
+        // Current values (after biome multipliers applied)
+        private float coyoteTime = 0.15f;
+        private float jumpBufferTime = 0.2f;
 
         [Tooltip("Enable double jump")]
         [SerializeField] private bool enableDoubleJump = false;
@@ -187,6 +201,13 @@ namespace InfiniteHaus.Player
             rb = GetComponent<Rigidbody2D>();
             col = GetComponent<Collider2D>();
             styleMeter = GetComponent<StyleMeterSystem>();
+
+            // Initialize current values from base values (v5.10)
+            jumpGravityScale = baseJumpGravityScale;
+            fallGravityScale = baseFallGravityScale;
+            airControl = baseAirControl;
+            coyoteTime = baseCoyoteTime;
+            jumpBufferTime = baseJumpBufferTime;
 
             // Configure rigidbody
             rb.gravityScale = fallGravityScale;
@@ -527,6 +548,38 @@ namespace InfiniteHaus.Player
         public void RecordHazardDodge()
         {
             styleMeter?.RecordHazardDodge();
+        }
+        #endregion
+
+        #region IIH_MoveTuner Implementation
+        /// <summary>
+        /// Applies biome-specific movement parameters (v5.10 integration)
+        /// WICHTIG: Called during smooth transitions, preserves momentum!
+        /// </summary>
+        public void ApplyBiomeParams(in IH_MoveParams params)
+        {
+            // Apply gravity multipliers
+            jumpGravityScale = baseJumpGravityScale * params.gravityMult;
+            fallGravityScale = baseFallGravityScale * params.gravityMult;
+
+            // Apply air control multiplier
+            airControl = baseAirControl * params.airControlMult;
+
+            // Apply speed multiplier (combines with existing speedMultiplier from powerups/hazards)
+            // Note: speedMultiplier is already used in CurrentSpeed property
+            float biomeSpeedMult = params.speedMult;
+            SetSpeedMultiplier(biomeSpeedMult);
+
+            // Apply coyote and buffer times (convert from ms to seconds)
+            coyoteTime = params.coyoteTimeMs / 1000f;
+            jumpBufferTime = params.jumpBufferMs / 1000f;
+
+            // Friction would be applied if we had explicit friction handling
+            // Currently handled by Unity Physics2D materials
+
+            #if UNITY_EDITOR
+            Debug.Log($"[EnhancedRunner] Biome params applied: Gravity={params.gravityMult:F2}, AirControl={params.airControlMult:F2}, Speed={params.speedMult:F2}, Coyote={coyoteTime:F3}s, Buffer={jumpBufferTime:F3}s");
+            #endif
         }
         #endregion
 

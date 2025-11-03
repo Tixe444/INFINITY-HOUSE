@@ -10,6 +10,7 @@ namespace InfiniteHaus.Game
     /// Manages ~60s corridor runtime, door choices, and seamless transitions.
     /// Left door = Style Boost + Biome Swap
     /// Right door = Loot + Risk
+    /// v5.10: Now integrates with IH_BiomeManager for smooth biome transitions.
     /// CPU: <0.15ms | Memory: 4KB | GC: 0B
     /// </summary>
     public class CorridorSystem : MonoBehaviour
@@ -62,6 +63,7 @@ namespace InfiniteHaus.Game
         [Header("References")]
         [SerializeField] private Player.StyleMeterSystem styleMeter;
         [SerializeField] private UI.UIController uiController;
+        [SerializeField] private IH_BiomeManager biomeManager; // v5.10 integration
         #endregion
 
         #region State
@@ -206,12 +208,13 @@ namespace InfiniteHaus.Game
             {
                 case DoorChoice.Left:
                     ApplyStyleBoost();
-                    SwapBiome();
+                    SwapBiome(-1f); // Left door bias
                     break;
 
                 case DoorChoice.Right:
                     ApplyLootBonus();
                     IncreaseRisk();
+                    SwapBiome(1f); // Right door bias
                     break;
             }
         }
@@ -225,11 +228,22 @@ namespace InfiniteHaus.Game
             }
         }
 
-        private void SwapBiome()
+        private void SwapBiome(float doorBias)
         {
-            // Cycle to next biome
-            currentBiomeIndex = (currentBiomeIndex + 1) % biomeScenes.Length;
-            Debug.Log($"[CorridorSystem] Biome swap to: {biomeScenes[currentBiomeIndex]}");
+            // v5.10: Use IH_BiomeManager for smooth biome transitions
+            // doorBias: -1 = left door (style), +1 = right door (loot)
+            if (biomeManager != null)
+            {
+                biomeManager.SelectNextBiome(doorBias);
+                string doorType = doorBias < 0f ? "Left (Style)" : "Right (Loot)";
+                Debug.Log($"[CorridorSystem] Biome swap initiated via IH_BiomeManager - {doorType} door (floor {biomeManager.CurrentFloor})");
+            }
+            else
+            {
+                // Fallback to legacy system
+                currentBiomeIndex = (currentBiomeIndex + 1) % biomeScenes.Length;
+                Debug.Log($"[CorridorSystem] Biome swap to: {biomeScenes[currentBiomeIndex]} (legacy)");
+            }
         }
 
         private void ApplyLootBonus()
